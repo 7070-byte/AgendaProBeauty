@@ -1,0 +1,36 @@
+@baseURL = http://localhost:3000/profissionais
+@id_profissional = 1
+
+### Listar todos os profissionais
+GET {{baseURL}}
+Accept: application/json
+
+### Criar um novo profissional
+POST {{baseURL}}
+Content-Type: application/json
+
+{
+ "profissional_nome": "João Silva",
+ "especialidade": "Manicure"
+}
+
+### Obter profissional por ID
+GET {{baseURL}}/{{id_profissional}}
+Accept: application/json
+
+### Atualizar um profissional existente
+PUT {{baseURL}}/{{id_profissional}}
+Content-Type: application/json
+
+{
+ "profissional_nome": "João Silva Atualizado",
+ "especialidade": "Pedicure"
+}
+
+### Deletar um profissional
+DELETE {{baseURL}}/{{id_profissional}}
+Accept: application/json
+
+### Deletar profissional inexistente (erro esperado)
+DELETE {{baseURL}}/9999
+Accept: application/json

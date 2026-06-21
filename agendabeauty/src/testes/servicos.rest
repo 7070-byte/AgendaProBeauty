@@ -1,0 +1,62 @@
+@baseURL = http://localhost:3000/servicos
+
+### Listar todos os servicos
+GET {{baseURL}}
+Accept: application/json
+
+### Criar um novo servico
+# @name criarServico
+POST {{baseURL}}
+Content-Type: application/json
+
+{
+  "profissional_nome": "Maria Oliveira",
+  "nome": "Corte masculino {{$timestamp}}",
+  "duracao": 60,
+  "preco": 45.00
+}
+
+### Buscar servico por ID 
+GET {{baseURL}}/{{criarServico.response.body.$.id}}
+Accept: application/json
+
+### Criar servico com duracao invalida (erro esperado)
+POST {{baseURL}}
+Content-Type: application/json
+
+{
+  "profissional_nome": "Maria Oliveira",
+  "nome": "Servico invalido {{$timestamp}}",
+  "duracao": 30,
+  "preco": 20.00
+}
+
+### Atualizar um servico existente
+PUT {{baseURL}}/{{criarServico.response.body.$.id}}
+Content-Type: application/json
+
+{
+  "profissional_nome": "Maria Oliveira",
+  "nome": "Corte masculino premium {{$timestamp}}",
+  "duracao": 60,
+  "preco": 60.00
+}
+
+### Atualizar servico inexistente (erro esperado)
+PUT {{baseURL}}/9999
+Content-Type: application/json
+
+{
+  "profissional_nome": "Maria Oliveira",
+  "nome": "Nao existe",
+  "duracao": 60,
+  "preco": 60.00
+}
+
+### Deletar um servico existente
+DELETE {{baseURL}}/{{criarServico.response.body.$.id}}
+Accept: application/json
+
+### Deletar servico inexistente (erro esperado)
+DELETE {{baseURL}}/9999
+Accept: application/json

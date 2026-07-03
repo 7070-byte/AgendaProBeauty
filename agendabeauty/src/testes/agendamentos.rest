@@ -1,0 +1,62 @@
+@baseURL = http://localhost:3000/agendamentos
+
+### Listar todos os agendamentos
+GET {{baseURL}}
+Accept: application/json
+
+### Criar um novo agendamento
+# @name criarAgendamento
+POST {{baseURL}}
+Content-Type: application/json
+
+{
+  "profissional_nome": "Maria Oliveira",
+  "usuario_nome": "Marta",
+  "servico_nome": "Manicure Simples",
+  "data_hora": "2024-06-01T10:00:00"
+}
+
+### Buscar agendamento por ID 
+GET {{baseURL}}/{{criarAgendamento.response.body.$.id}}
+Accept: application/json
+
+### Criar agendamento com data_hora invalida (erro esperado)
+POST {{baseURL}}
+Content-Type: application/json
+
+{
+  "profissional_nome": "Maria Oliveira",
+  "usuario_nome": "Marta",
+  "servico_nome": "Manicure Simples",
+  "data_hora": "invalid-date"
+}
+
+### Atualizar um agendamento existente
+PUT {{baseURL}}/{{criarAgendamento.response.body.$.id}}
+Content-Type: application/json
+
+{
+  "profissional_nome": "Maria Oliveira",
+  "usuario_nome": "Marta",
+  "servico_nome": "Manicure Completa",
+  "data_hora": "2024-06-01T11:00:00"
+}
+
+### Atualizar agendamento inexistente (erro esperado)
+PUT {{baseURL}}/9999
+Content-Type: application/json
+
+{
+  "profissional_nome": "Maria Oliveira",
+  "usuario_nome": "Fulana",
+  "servico_nome": "Manicure Simples",
+  "data_hora": "2024-06-01T12:00:00"
+}
+
+### Deletar um agendamento existente
+DELETE {{baseURL}}/{{criarAgendamento.response.body.$.id}}
+Accept: application/json
+
+### Deletar agendamento inexistente (erro esperado)
+DELETE {{baseURL}}/9999
+Accept: application/json

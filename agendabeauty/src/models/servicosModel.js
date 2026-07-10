@@ -1,8 +1,10 @@
 const db = require('../config/database');
 
 class ServicosModel {
-    static async findAll() {
-        const [rows] = await db.query('SELECT * FROM servicos');
+    static async findAll(area) {
+        const [rows] = area
+            ? await db.query('SELECT * FROM servicos WHERE area = ?', [area])
+            : await db.query('SELECT * FROM servicos');
         return rows;
     }
 
@@ -11,9 +13,14 @@ class ServicosModel {
         return rows[0];
     }
 
+    static async findByName(nome) {
+        const [rows] = await db.query('SELECT * FROM servicos WHERE nome = ?', [nome]);
+        return rows[0];
+    }
+
     static async create(servico) {
-        const { profissional_nome, nome, duracao, preco} = servico;
-        const [result] = await db.query('INSERT INTO servicos (profissional_nome, nome, duracao, preco) VALUES (?, ?, ?, ?)', [profissional_nome, nome, duracao, preco]);
+        const { profissional_nome, nome, area, duracao, preco } = servico;
+        const [result] = await db.query('INSERT INTO servicos (profissional_nome, nome, area, duracao, preco) VALUES (?, ?, ?, ?, ?)', [profissional_nome, nome, area, duracao, preco]);
         return result.insertId;
     }
 

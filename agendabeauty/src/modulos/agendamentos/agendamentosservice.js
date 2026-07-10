@@ -1,4 +1,5 @@
 const AgendamentosModel = require('../../models/agendamentosModel');
+const AgendaService = require('../agenda/agendaservice');
 
 class AgendamentosService {
 
@@ -18,10 +19,36 @@ class AgendamentosService {
       if (!agendamento.profissional_nome || !agendamento.usuario_nome || !agendamento.servico_nome || !agendamento.data_hora) {
          throw new Error("profissional_nome, usuario_nome, servico_nome e data_hora são obrigatórios.");
       }
+
+      const horarioDisponivel = await AgendaService.isHorarioDisponivel(
+         agendamento.profissional_nome,
+         agendamento.servico_nome,
+         agendamento.data_hora
+      );
+
+      if (!horarioDisponivel) {
+         throw new Error("O horário informado não está disponível para este profissional.");
+      }
+
       return await AgendamentosModel.create(agendamento);
    }
 
    static async updateAgendamento(id, agendamento) {
+      if (!agendamento.profissional_nome || !agendamento.usuario_nome || !agendamento.servico_nome || !agendamento.data_hora) {
+         throw new Error("profissional_nome, usuario_nome, servico_nome e data_hora são obrigatórios.");
+      }
+
+      const horarioDisponivel = await AgendaService.isHorarioDisponivel(
+         agendamento.profissional_nome,
+         agendamento.servico_nome,
+         agendamento.data_hora,
+         id
+      );
+
+      if (!horarioDisponivel) {
+         throw new Error("O horário informado não está disponível para este profissional.");
+      }
+
       const updatedRows = await AgendamentosModel.update(id, agendamento);
       if (updatedRows === 0) {
          throw new Error("Agendamento não encontrado.");

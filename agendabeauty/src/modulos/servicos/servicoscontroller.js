@@ -4,8 +4,9 @@ class ServicosController {
 
    static async getAll(req, res) {
       try {
-         const servicos = await ServicosService.getAllServicos();
-         res.json(servicos); 
+         const area = req.query.area;
+         const servicos = await ServicosService.getAllServicos(area);
+         res.json(servicos);
       } catch (error) {
          res.status(500).json({ error: error.message });
       }

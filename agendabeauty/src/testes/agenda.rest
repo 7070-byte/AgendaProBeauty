@@ -1,0 +1,227 @@
+@baseURL = http://localhost:3000
+@diaTeste = 2026-07-13
+@sufixo = 20260710
+@profAna = AnaTeste_{{sufixo}}
+@profB = ProfB_{{sufixo}}
+@profC = ProfC_{{sufixo}}
+@profD = ProfD_{{sufixo}}
+@profE = ProfE_{{sufixo}}
+@usuarioA = UsuarioA_{{sufixo}}
+@usuarioB = UsuarioB_{{sufixo}}
+@emailA = usuarioa{{sufixo}}@example.com
+@emailB = usuariob{{sufixo}}@example.com
+@servicoNome = ServicoTeste_{{sufixo}}
+
+### PREP 1) Criar usuarios do cenario
+POST {{baseURL}}/usuarios
+Content-Type: application/json
+
+{
+  "nome": "{{usuarioA}}",
+  "email": "{{emailA}}"
+}
+
+###
+POST {{baseURL}}/usuarios
+Content-Type: application/json
+
+{
+  "nome": "{{usuarioB}}",
+  "email": "{{emailB}}"
+}
+
+### PREP 2) Criar 5 profissionais do cenario
+POST {{baseURL}}/profissionais
+Content-Type: application/json
+
+{
+  "profissional_nome": "{{profAna}}",
+  "especialidade": "Cabeleireiro"
+}
+
+###
+POST {{baseURL}}/profissionais
+Content-Type: application/json
+
+{
+  "profissional_nome": "{{profB}}",
+  "especialidade": "Cabeleireiro"
+}
+
+###
+POST {{baseURL}}/profissionais
+Content-Type: application/json
+
+{
+  "profissional_nome": "{{profC}}",
+  "especialidade": "Cabeleireiro"
+}
+
+###
+POST {{baseURL}}/profissionais
+Content-Type: application/json
+
+{
+  "profissional_nome": "{{profD}}",
+  "especialidade": "Cabeleireiro"
+}
+
+###
+POST {{baseURL}}/profissionais
+Content-Type: application/json
+
+{
+  "profissional_nome": "{{profE}}",
+  "especialidade": "Cabeleireiro"
+}
+
+### PREP 3) Criar servico usado no cenario
+POST {{baseURL}}/servicos
+Content-Type: application/json
+
+{
+  "profissional_nome": "{{profAna}}",
+  "nome": "{{servicoNome}}",
+  "area": "Sala Teste",
+  "duracao": 60,
+  "preco": 70.00
+}
+
+### PREP 4) Horarios de trabalho (segunda-feira) para os 5 profissionais
+POST {{baseURL}}/agenda/horarios-trabalho
+Content-Type: application/json
+
+{
+  "profissional_nome": "{{profAna}}",
+  "dia_semana": 1,
+  "hora_inicio": "08:00:00",
+  "hora_fim": "17:00:00"
+}
+
+###
+POST {{baseURL}}/agenda/horarios-trabalho
+Content-Type: application/json
+
+{
+  "profissional_nome": "{{profB}}",
+  "dia_semana": 1,
+  "hora_inicio": "08:00:00",
+  "hora_fim": "17:00:00"
+}
+
+###
+POST {{baseURL}}/agenda/horarios-trabalho
+Content-Type: application/json
+
+{
+  "profissional_nome": "{{profC}}",
+  "dia_semana": 1,
+  "hora_inicio": "08:00:00",
+  "hora_fim": "17:00:00"
+}
+
+###
+POST {{baseURL}}/agenda/horarios-trabalho
+Content-Type: application/json
+
+{
+  "profissional_nome": "{{profD}}",
+  "dia_semana": 1,
+  "hora_inicio": "08:00:00",
+  "hora_fim": "17:00:00"
+}
+
+###
+POST {{baseURL}}/agenda/horarios-trabalho
+Content-Type: application/json
+
+{
+  "profissional_nome": "{{profE}}",
+  "dia_semana": 1,
+  "hora_inicio": "08:00:00",
+  "hora_fim": "17:00:00"
+}
+
+### PREP 5) Bloqueio manual da Ana (remove slot 12:00)
+POST {{baseURL}}/agenda/bloqueios
+Content-Type: application/json
+
+{
+  "profissional_nome": "{{profAna}}",
+  "data_inicio": "{{diaTeste}} 12:00:00",
+  "data_fim": "{{diaTeste}} 13:00:00",
+  "motivo": "Almoco estendido"
+}
+
+### PREP 6) Agendamento da propria Ana (remove slot 10:00)
+POST {{baseURL}}/agendamentos
+Content-Type: application/json
+
+{
+  "profissional_nome": "{{profAna}}",
+  "usuario_nome": "{{usuarioA}}",
+  "servico_nome": "{{servicoNome}}",
+  "data_hora": "{{diaTeste}} 10:00:00"
+}
+
+### PREP 7) Preencher o horario 15:00 com 5 simultaneos (limite global)
+POST {{baseURL}}/agendamentos
+Content-Type: application/json
+
+{
+  "profissional_nome": "{{profAna}}",
+  "usuario_nome": "{{usuarioB}}",
+  "servico_nome": "{{servicoNome}}",
+  "data_hora": "{{diaTeste}} 15:00:00"
+}
+
+###
+POST {{baseURL}}/agendamentos
+Content-Type: application/json
+
+{
+  "profissional_nome": "{{profB}}",
+  "usuario_nome": "{{usuarioA}}",
+  "servico_nome": "{{servicoNome}}",
+  "data_hora": "{{diaTeste}} 15:00:00"
+}
+
+###
+POST {{baseURL}}/agendamentos
+Content-Type: application/json
+
+{
+  "profissional_nome": "{{profC}}",
+  "usuario_nome": "{{usuarioB}}",
+  "servico_nome": "{{servicoNome}}",
+  "data_hora": "{{diaTeste}} 15:00:00"
+}
+
+###
+POST {{baseURL}}/agendamentos
+Content-Type: application/json
+
+{
+  "profissional_nome": "{{profD}}",
+  "usuario_nome": "{{usuarioA}}",
+  "servico_nome": "{{servicoNome}}",
+  "data_hora": "{{diaTeste}} 15:00:00"
+}
+
+###
+POST {{baseURL}}/agendamentos
+Content-Type: application/json
+
+{
+  "profissional_nome": "{{profE}}",
+  "usuario_nome": "{{usuarioB}}",
+  "servico_nome": "{{servicoNome}}",
+  "data_hora": "{{diaTeste}} 15:00:00"
+}
+
+### CHECK A) Endpoint de bloqueios mostra somente bloqueios manuais
+GET {{baseURL}}/agenda/bloqueios?profissional_nome={{profAna}}&data={{diaTeste}}
+
+### CHECK B) Disponibilidade combinada (bloqueio + conflito profissional + limite global)
+### Esperado: nao conter 10:00, 12:00 e 15:00 para {{profAna}}
+GET {{baseURL}}/agenda/disponibilidade?profissional_nome={{profAna}}&data={{diaTeste}}&servico_nome={{servicoNome}}

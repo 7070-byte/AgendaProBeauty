@@ -12,6 +12,7 @@ Content-Type: application/json
 {
   "profissional_nome": "Maria Oliveira",
   "nome": "Corte masculino {{$timestamp}}",
+  "area": "Sala 1",
   "duracao": 60,
   "preco": 45.00
 }
@@ -27,6 +28,7 @@ Content-Type: application/json
 {
   "profissional_nome": "Maria Oliveira",
   "nome": "Servico invalido {{$timestamp}}",
+  "area": "Sala 1",
   "duracao": 30,
   "preco": 20.00
 }
@@ -38,6 +40,7 @@ Content-Type: application/json
 {
   "profissional_nome": "Maria Oliveira",
   "nome": "Corte masculino premium {{$timestamp}}",
+  "area": "Sala 2",
   "duracao": 60,
   "preco": 60.00
 }
@@ -49,6 +52,7 @@ Content-Type: application/json
 {
   "profissional_nome": "Maria Oliveira",
   "nome": "Nao existe",
+  "area": "Sala 3",
   "duracao": 60,
   "preco": 60.00
 }

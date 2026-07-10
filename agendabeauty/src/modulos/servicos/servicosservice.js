@@ -2,8 +2,8 @@ const ServicosModel = require("../../models/servicosModel");
 
 class ServicosService {
 
-   static async getAllServicos() {
-      return await ServicosModel.findAll();
+   static async getAllServicos(area) {
+      return await ServicosModel.findAll(area);
    }
 
    static async getServicoById(id) {
@@ -14,9 +14,17 @@ class ServicosService {
       return servico;
    }
 
+   static async getServicoByName(nome) {
+      const servico = await ServicosModel.findByName(nome);
+      if (!servico) {
+         throw new Error("Serviço não encontrado.");
+      }
+      return servico;
+   }
+
    static async createServico(servico) {
-      if (!servico.profissional_nome || !servico.nome || !servico.duracao || !servico.preco) {
-         throw new Error("profissional_nome, nome, duracao e preco são obrigatórios.");
+      if (!servico.profissional_nome || !servico.nome || !servico.area || !servico.duracao || !servico.preco) {
+         throw new Error("profissional_nome, nome, area, duracao e preco são obrigatórios.");
       }
       return await ServicosModel.create(servico);
    }

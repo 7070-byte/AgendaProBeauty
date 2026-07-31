@@ -4,6 +4,14 @@
 GET {{baseURL}}
 Accept: application/json
 
+### Listar agendamentos por usuário com filtro de status
+GET {{baseURL}}?usuario_nome=Marta&status=confirmado
+Accept: application/json
+
+### Listar agendamentos por profissional com filtro de status
+GET {{baseURL}}?profissional_nome=Maria%20Oliveira&status=agendado
+Accept: application/json
+
 ### Criar um novo agendamento
 # @name criarAgendamento
 POST {{baseURL}}

@@ -56,6 +56,35 @@ class AgendamentosService {
       return updatedRows;
    }
 
+   static async updateStatusAgendamento(id, status) {
+      const statusPermitidos = ['agendado', 'confirmado', 'concluido', 'cancelado'];
+
+      if (!statusPermitidos.includes(status)) {
+         throw new Error('status inválido. Valores permitidos: agendado, confirmado, concluido, cancelado.');
+      }
+
+      if (status === 'cancelado') {
+         const agendamento = await AgendamentosModel.findById(id);
+         if (!agendamento) {
+            throw new Error("Agendamento não encontrado.");
+         }
+
+         const dataAgendamento = new Date(agendamento.data_hora);
+         const agora = new Date();
+         const diferencaHoras = (dataAgendamento - agora) / (1000 * 60 * 60);
+
+         if (diferencaHoras < 2) {
+            throw new Error('Cancelamento não permitido com menos de 2 horas de antecedência.');
+         }
+      }
+
+      const updatedRows = await AgendamentosModel.updateStatus(id, status);
+      if (updatedRows === 0) {
+         throw new Error("Agendamento não encontrado.");
+      }
+      return updatedRows;
+   }
+
    static async deleteAgendamento(id) {
       const deletedRows = await AgendamentosModel.delete(id);
       if (deletedRows === 0) {

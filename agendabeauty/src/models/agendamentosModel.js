@@ -12,14 +12,19 @@ class AgendamentosModel {
     }
 
     static async create(agendamento) {
-        const { profissional_nome, usuario_nome, servico_nome, data_hora } = agendamento;
-        const [result] = await db.query('INSERT INTO agendamentos (profissional_nome, usuario_nome, servico_nome, data_hora) VALUES (?, ?, ?, ?)', [profissional_nome, usuario_nome, servico_nome, data_hora]);
+        const { profissional_nome, usuario_nome, servico_nome, data_hora, status = 'agendado' } = agendamento;
+        const [result] = await db.query('INSERT INTO agendamentos (profissional_nome, usuario_nome, servico_nome, data_hora, status) VALUES (?, ?, ?, ?, ?)', [profissional_nome, usuario_nome, servico_nome, data_hora, status]);
         return result.insertId;
     }
 
     static async update(id, agendamento) {
         const { profissional_nome, usuario_nome, servico_nome, data_hora } = agendamento;
         const [result] = await db.query('UPDATE agendamentos SET profissional_nome = ?, usuario_nome = ?, servico_nome = ?, data_hora = ? WHERE id = ?', [profissional_nome, usuario_nome, servico_nome, data_hora, id]);
+        return result.affectedRows;
+    }
+
+    static async updateStatus(id, status) {
+        const [result] = await db.query('UPDATE agendamentos SET status = ? WHERE id = ?', [status, id]);
         return result.affectedRows;
     }
 

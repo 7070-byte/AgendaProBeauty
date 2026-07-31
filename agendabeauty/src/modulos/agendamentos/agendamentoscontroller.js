@@ -5,7 +5,7 @@ class AgendamentosController {
    static async getAll(req, res) {
       try {
          const agendamentos = await AgendamentosService.getAllAgendamentos();
-         res.json(agendamentos); 
+         res.json(agendamentos);
       } catch (error) {
          res.status(500).json({ error: error.message });
       }
@@ -34,6 +34,16 @@ class AgendamentosController {
          const id = req.params.id;
          await AgendamentosService.updateAgendamento(id, req.body);
          res.json({ message: 'Agendamento atualizado com sucesso.' });
+      } catch (error) {
+         res.status(400).json({ error: error.message });
+      }
+   }
+
+   static async updateStatus(req, res) {
+      try {
+         const id = req.params.id;
+         await AgendamentosService.updateStatusAgendamento(id, req.body.status);
+         res.json({ message: 'Status atualizado com sucesso.' });
       } catch (error) {
          res.status(400).json({ error: error.message });
       }
